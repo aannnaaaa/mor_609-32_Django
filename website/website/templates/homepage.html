@@ -1,0 +1,67 @@
+{% extends "base_layout.html" %}
+{% load static %}
+{% block title %}Main page{% endblock title %}
+{% block content %}
+<div class="homepage">
+    <section class="hero">
+        <h1>Find the newest articles here</h1>
+        <p class="intro">{{message}}</p>
+        <a href="{% url 'article_list' %}" class="btn-primary">Browse all articles</a>
+    </section>
+
+    {% if featured_articles %}
+    <section class="featured-articles">
+        <h2>Featured Articles</h2>
+        <div class="articles-grid">
+            {% for article in featured_articles %}
+            <div class="featured-article">
+                <div class="article-image">
+                    <img src="{{ article.thumbnail.url }}" alt="{{ article.title }}">
+                </div>
+                <h3><a href="{% url 'article_detail' slug=article.slug %}">{{ article.title }}</a></h3>
+                <p>{{ article.snippet }}</p>
+                <div class="article-meta">
+                    <span class="date">{{ article.date }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <section class="categories">
+        <h2>Popular Categories</h2>
+        <div class="category-list">
+            {% if categories %}
+                {% for category in categories %}
+                <div class="category-item">
+                    <a href="{% url 'article_list' %}?category={{ category.slug }}">{{ category.name }}</a>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="category-item">
+                    <a href="{% url 'article_list' %}">Technology</a>
+                </div>
+                <div class="category-item">
+                    <a href="{% url 'article_list' %}">Science</a>
+                </div>
+                <div class="category-item">
+                    <a href="{% url 'article_list' %}">Lifestyle</a>
+                </div>
+                <div class="category-item">
+                    <a href="{% url 'article_list' %}">Health</a>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <h2>Subscribe to Our Newsletter</h2>
+        <p>Get the latest articles and updates delivered straight to your inbox.</p>
+        <form class="newsletter-form">
+            <input type="email" placeholder="Your email address">
+            <button type="submit">Subscribe</button>
+        </form>
+    </section>
+</div>
+{% endblock content %}

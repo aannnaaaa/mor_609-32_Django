@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Defaul title{% endblock title %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static '/css/style.css' %}">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+               <!-- <a href="{% url 'article_list' %}">
+                    <img src="{% static 'img/logo.png' %}" alt="Логотип сайта">
+                </a>-->
+            </div>
+
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="{% url 'homepage' %}" class="{% if request.path == '' %}active{% endif %}">Главная</a></li>
+                    <li><a href="{% url 'article_list' %}" class="{% if request.path == '/articles/' %}active{% endif %}">Статьи</a></li>
+                    <li><a href="{% url 'about' %}" class="{% if request.path == '/about/' %}active{% endif %}">О нас</a></li>
+                    <li><a href="#">Контакты</a></li>
+                     {% if user.is_authenticated %}
+                    <li>
+                        <form class="form" action="/accounts/logout/" method="post">
+                            {% csrf_token %}
+                            <button type="submit">Logout</button>
+                        </form>
+                    </li>
+                    {% else %}
+                        <li>
+                            <a href="{% url 'login' %}">Login</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</body>
+</html>
