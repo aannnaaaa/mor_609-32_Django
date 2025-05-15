@@ -6,7 +6,7 @@ from django.utils.text import slugify
 from articles.models import Article
 
 
-@receiver(signals.post_save, sender=Article)
+@receiver(signals.pre_save, sender=Article)
 def create_slug(sender, instance, **kwargs):
     slug_str = "%s %s" % (instance.title, get_random_string(length=4))
     if not instance.slug:
