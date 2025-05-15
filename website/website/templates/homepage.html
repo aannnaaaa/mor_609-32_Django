@@ -6,7 +6,7 @@
     <section class="hero">
         <h1>Find the newest articles here</h1>
         <p class="intro">{{message}}</p>
-        <a href="{% url 'article_list' %}" class="btn-primary">Browse all articles</a>
+        <a href="{% url 'articles:article_list' %}" class="btn-primary">Browse all articles</a>
     </section>
 
     {% if featured_articles %}
@@ -16,9 +16,16 @@
             {% for article in featured_articles %}
             <div class="featured-article">
                 <div class="article-image">
-                    <img src="{{ article.thumbnail.url }}" alt="{{ article.title }}">
+                    {% if article.thumbnail.url != null %}
+                    <img src="{{article.thumbnail.url}}" alt="{{ article.title }}">
+                    {% endif %}
                 </div>
-                <h3><a href="{% url 'article_detail' slug=article.slug %}">{{ article.title }}</a></h3>
+                <h3>{% if article.slug %}
+                    <a href="{% url 'articles:article_detail' slug=article.slug %}">{{ article.title }}</a>
+                    {% else %}
+                        {{ article.title }}
+                    {% endif %}
+                </h3>
                 <p>{{ article.snippet }}</p>
                 <div class="article-meta">
                     <span class="date">{{ article.date }}</span>
@@ -33,24 +40,24 @@
         <h2>Popular Categories</h2>
         <div class="category-list">
             {% if categories %}
-                {% for category in categories %}
-                <div class="category-item">
-                    <a href="{% url 'article_list' %}?category={{ category.slug }}">{{ category.name }}</a>
-                </div>
-                {% endfor %}
+            {% for category in categories %}
+            <div class="category-item">
+                <a href="{% url 'article_list' %}?category={{ category.slug }}">{{ category.name }}</a>
+            </div>
+            {% endfor %}
             {% else %}
-                <div class="category-item">
-                    <a href="{% url 'article_list' %}">Technology</a>
-                </div>
-                <div class="category-item">
-                    <a href="{% url 'article_list' %}">Science</a>
-                </div>
-                <div class="category-item">
-                    <a href="{% url 'article_list' %}">Lifestyle</a>
-                </div>
-                <div class="category-item">
-                    <a href="{% url 'article_list' %}">Health</a>
-                </div>
+            <div class="category-item">
+                <a href="{% url 'articles:article_list' %}">Technology</a>
+            </div>
+            <div class="category-item">
+                <a href="{% url 'articles:article_list' %}">Science</a>
+            </div>
+            <div class="category-item">
+                <a href="{% url 'articles:article_list' %}">Lifestyle</a>
+            </div>
+            <div class="category-item">
+                <a href="{% url 'articles:article_list' %}">Health</a>
+            </div>
             {% endif %}
         </div>
     </section>
