@@ -1,74 +1,70 @@
 {% extends "base_layout.html" %}
-{% load static %}
-{% block title %}Main page{% endblock title %}
+{% block title %}Main Page{% endblock title %}
 {% block content %}
 <div class="homepage">
-    <section class="hero">
-        <h1>Find the newest articles here</h1>
-        <p class="intro">{{message}}</p>
-        <a href="{% url 'articles:article_list' %}" class="btn-primary">Browse all articles</a>
+    <section class="hero bg-light py-5 text-center rounded">
+        <div class="container">
+            <h1 class="display-4">Find the Newest Articles Here</h1>
+            <p class="lead">{{ message }}</p>
+            <a href="{% url 'articles:article_list' %}" class="btn btn-primary">Browse All Articles</a>
+        </div>
     </section>
 
     {% if featured_articles %}
-    <section class="featured-articles">
-        <h2>Featured Articles</h2>
-        <div class="articles-grid">
-            {% for article in featured_articles %}
-            <div class="featured-article">
-                <div class="article-image">
-                    {% if article.thumbnail.url != null %}
-                    <img src="{{article.thumbnail.url}}" alt="{{ article.title }}">
-                    {% endif %}
-                </div>
-                <h3>{% if article.slug %}
-                    <a href="{% url 'articles:article_detail' slug=article.slug %}">{{ article.title }}</a>
-                    {% else %}
-                        {{ article.title }}
-                    {% endif %}
-                </h3>
-                <p>{{ article.snippet }}</p>
-                <div class="article-meta">
-                    <span class="date">{{ article.date }}</span>
-                </div>
+        <section class="featured-articles py-5">
+            <h2 class="text-center mb-4">Featured Articles</h2>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                {% for article in featured_articles %}
+                    <div class="col">
+                        <div class="card h-100 shadow-sm">
+                            {% if article.thumbnail.url != null %}
+                                <img src="{{article.thumbnail.url}}" alt="{{ article.title }}">
+                            {% endif %}
+                            <div class="card-body">
+                                <h3 class="card-title">
+                                    {% if article.slug %}
+                                        <a href="{% url 'articles:article_detail' slug=article.slug %}">{{ article.title }}</a>
+                                    {% else %}
+                                        {{ article.title }}
+                                    {% endif %}
+                                </h3>
+                                <p class="card-text">{{ article.snippet }}</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-0">
+                                <small class="text-muted">{{ article.date }}</small>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-        </div>
-    </section>
+        </section>
     {% endif %}
 
-    <section class="categories">
-        <h2>Popular Categories</h2>
-        <div class="category-list">
+    <section class="categories py-5">
+        <h2 class="text-center mb-4">Popular Categories</h2>
+        <div class="d-flex flex-wrap justify-content-center gap-3">
             {% if categories %}
-            {% for category in categories %}
-            <div class="category-item">
-                <a href="{% url 'article_list' %}?category={{ category.slug }}">{{ category.name }}</a>
-            </div>
-            {% endfor %}
+                {% for category in categories %}
+                    <a href="{% url 'articles:article_list' %}?category={{ category.slug }}" class="btn btn-outline-primary">{{ category.name }}</a>
+                {% endfor %}
             {% else %}
-            <div class="category-item">
-                <a href="{% url 'articles:article_list' %}">Technology</a>
-            </div>
-            <div class="category-item">
-                <a href="{% url 'articles:article_list' %}">Science</a>
-            </div>
-            <div class="category-item">
-                <a href="{% url 'articles:article_list' %}">Lifestyle</a>
-            </div>
-            <div class="category-item">
-                <a href="{% url 'articles:article_list' %}">Health</a>
-            </div>
+                <a href="{% url 'articles:article_list' %}" class="btn btn-outline-primary">Technology</a>
+                <a href="{% url 'articles:article_list' %}" class="btn btn-outline-primary">Science</a>
+                <a href="{% url 'articles:article_list' %}" class="btn btn-outline-primary">Lifestyle</a>
+                <a href="{% url 'articles:article_list' %}" class="btn btn-outline-primary">Health</a>
             {% endif %}
         </div>
     </section>
 
-    <section class="newsletter">
-        <h2>Subscribe to Our Newsletter</h2>
-        <p>Get the latest articles and updates delivered straight to your inbox.</p>
-        <form class="newsletter-form">
-            <input type="email" placeholder="Your email address">
-            <button type="submit">Subscribe</button>
-        </form>
+    <section class="newsletter bg-light py-5 rounded text-center">
+        <div class="container">
+            <h2>Subscribe to Our Newsletter</h2>
+            <p class="lead">Get the latest articles and updates delivered straight to your inbox.</p>
+            <form class="d-flex justify-content-center gap-2">
+                <input type="email" class="form-control w-auto" placeholder="Your email address" aria-label="Email">
+                <button type="submit" class="btn btn-primary">Subscribe</button>
+            </form>
+        </div>
     </section>
 </div>
 {% endblock content %}

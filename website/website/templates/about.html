@@ -1,8 +1,16 @@
 {% extends "base_layout.html" %}
 {% block title %}About{% endblock title %}
 {% block content %}
-<h1>{{header}}</h1>
-<p>Director: {{director.name}}</p>
-<p>Address: {{address.0}}, {{address.1}}, {{address.2}}, {{address.3}}</p>
-<p>Staff: {{staff.0}}, {{staff.1}}, {{staff.2}}</p>
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h1 class="card-title">{{ header }}</h1>
+                <p class="card-text">Director: {{ director.name }}</p>
+                <p class="card-text">Address: {{ address.0 }}, {{ address.1 }}, {{ address.2 }}, {{ address.3 }}</p>
+                <p class="card-text">Staff: {{ staff.0 }}, {{ staff.1 }}, {{ staff.2 }}</p>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}

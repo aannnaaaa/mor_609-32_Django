@@ -1,15 +1,23 @@
 {% extends "base_layout.html" %}
-{% load static %}
 {% block title %}Login{% endblock title %}
 {% block content %}
-<link rel="stylesheet" href="{% static '/css/style.css' %}">
-<h1>Login</h1>
-<form class="form" action="{% url 'accounts:login' %}" method="post">
-    {% csrf_token %}
-    {{ form }}
-    {% if request.GET.next%}
-        <input type="hidden" name="next" value="{{ request.GET.next }}">
-    {% endif %}
-    <input type="submit" value="Login">
-</form>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h1 class="card-title text-center mb-4">Login</h1>
+                <form action="{% url 'accounts:login' %}" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    {% if request.GET.next %}
+                        <input type="hidden" name="next" value="{{ request.GET.next }}">
+                    {% endif %}
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}
